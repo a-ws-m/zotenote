@@ -10,16 +10,14 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:zotenote.helloWorld"
+    "onCommand:zotenote.makeLiteratureNote"
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "zotenote.helloWorld",
-        "title": "Hello World"
-      }
-    ]
+    "commands": [{
+      "command": "zotenote.makeLiteratureNote",
+      "title": "Make literature note"
+    }]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -41,5 +39,8 @@
     "glob": "^7.1.7",
     "mocha": "^9.1.1",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "got": "^11.8.2"
   }
 }
