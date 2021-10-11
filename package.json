@@ -10,13 +10,13 @@
     "Other"
   ],
   "activationEvents": [
-    "onCommand:zotenote.makeLiteratureNote"
+    "onCommand:zotenote.makeLiteratureNotes"
   ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [{
-      "command": "zotenote.makeLiteratureNote",
-      "title": "Make literature note"
+      "command": "zotenote.makeLiteratureNotes",
+      "title": "Make literature notes from Zotero"
     }]
   },
   "scripts": {
