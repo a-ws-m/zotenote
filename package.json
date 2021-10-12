@@ -17,7 +17,23 @@
     "commands": [{
       "command": "zotenote.makeLiteratureNotes",
       "title": "Make literature notes from Zotero"
-    }]
+    }],
+    "configuration": {
+      "type": "object",
+      "title": "Zotenote",
+      "properties": {
+        "zotenote.templateFile": {
+          "type": "string",
+          "default": "",
+          "description": "Customise which template file to use for new literature notes."
+        },
+        "zotenote.destination": {
+          "type": "string",
+          "default": ".",
+          "description": "Directory to save new literature notes."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
