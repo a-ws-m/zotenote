@@ -108,3 +108,7 @@ will not.
 ### 1.0.0
 
 Initial release of Zotenote, with customisable templates.
+
+### 1.0.1
+
+Added templating guide to `README`.
