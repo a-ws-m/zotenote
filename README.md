@@ -10,8 +10,7 @@ citations picker dialogue. Type the name of the literature you'd like to create 
 then press Enter to select. You can select multiple entries. Once you're done, press Enter
 again to create the notes and have them displayed in the editor:
 
-https://user-images.githubusercontent.com/25207558/138964836-50b65865-b44b-4b95-8ca1-55178404114e.mp4
-
+<https://user-images.githubusercontent.com/25207558/138964836-50b65865-b44b-4b95-8ca1-55178404114e.mp4>
 
 ## Requirements
 
