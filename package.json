@@ -2,7 +2,7 @@
   "name": "zotenote",
   "displayName": "zotenote",
   "description": "Quickly create literature notes with bibliographic information from your Zotero library.",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -14,10 +14,12 @@
   ],
   "main": "./out/extension.js",
   "contributes": {
-    "commands": [{
-      "command": "zotenote.makeLiteratureNotes",
-      "title": "Make literature notes from Zotero"
-    }],
+    "commands": [
+      {
+        "command": "zotenote.makeLiteratureNotes",
+        "title": "Make literature notes from Zotero"
+      }
+    ],
     "configuration": {
       "type": "object",
       "title": "Zotenote",
