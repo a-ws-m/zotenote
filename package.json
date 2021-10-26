@@ -2,7 +2,7 @@
   "name": "zotenote",
   "displayName": "zotenote",
   "description": "Quickly create literature notes with bibliographic information from your Zotero library.",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "engines": {
     "vscode": "^1.61.0"
   },
@@ -58,5 +58,7 @@
   },
   "dependencies": {
     "got": "^11.8.2"
-  }
+  },
+  "publisher": "A-WS-M",
+  "repository": "https://github.com/a-ws-m/zotenote"
 }
