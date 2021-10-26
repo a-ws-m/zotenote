@@ -1,70 +1,31 @@
-# zotenote README
+# Zotenote
 
-This is the README for your extension "zotenote". After writing up a brief description, we recommend including the following sections.
+Zotenote is an extension for VSCode that enables easy creation of literature notes from Zotero library entries.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Zotenote allows you to configure a literature note *template*, or just use the default one.
+Then, run `Make literature notes from Zotero` from the Command Palette to view a Zotero
+citations picker dialogue. Type the name of the literature you'd like to create a note for,
+then press Enter to select. You can select multiple entries. Once you're done, press Enter
+again to create the notes and have them displayed in the editor:
 
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
+![Screen recording](static/screenrecord.mp4)
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Zotenote requires the [Better BibTex](https://retorque.re/zotero-better-bibtex/installation/)
+extension for Zotero. Zotero must also be opened on your local machine running VSCode in order
+to create new literature notes.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+* `zotenote.templateFile`: The literature note template file, relative to the workspace.
+* `zotenote.destination`: The directory in which to save literature notes, relative to the workspace.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
 ### 1.0.0
 
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-**Note:** You can author your README using Visual Studio Code.  Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux)
-* Toggle preview (`Shift+CMD+V` on macOS or `Shift+Ctrl+V` on Windows and Linux)
-* Press `Ctrl+Space` (Windows, Linux) or `Cmd+Space` (macOS) to see a list of Markdown snippets
-
-### For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+Initial release of Zotenote, with customisable templates.
