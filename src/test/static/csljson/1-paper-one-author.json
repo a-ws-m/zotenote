@@ -1,3 +1,27 @@
-[
-  {"id":"sajdaMachineLearningDetection2006","abstract":"Machine learning offers a principled approach for developing sophisticated, automatic, and objective algorithms for analysis of high-dimensional and multimodal biomedical data. This review focuses on several advances in the state of the art that have shown promise in improving detection, diagnosis, and therapeutic monitoring of disease. Key in the advancement has been the development of a more in-depth understanding and theoretical analysis of critical issues related to algorithmic construction and learning theory. These include trade-offs for maximizing generalization performance, use of physically realistic constraints, and incorporation of prior knowledge and uncertainty. The review describes recent developments in machine learning, focusing on supervised and unsupervised linear methods and Bayesian inference, which have made significant impacts in the detection and diagnosis of disease in biomedicine. We describe the different methodologies and, for each, provide examples of their application to specific domains in biomedical diagnostics.","accessed":{"date-parts":[[2020,10,2]]},"author":[{"family":"Sajda","given":"Paul"}],"container-title":"Annual Review of Biomedical Engineering","DOI":"10.1146/annurev.bioeng.8.061505.095802","issue":"1","issued":{"date-parts":[[2006]]},"page":"537-565","source":"Annual Reviews","title":"Machine Learning for Detection and Diagnosis of Disease","type":"article-journal","URL":"https://doi.org/10.1146/annurev.bioeng.8.061505.095802","volume":"8"}
-]
+[{
+  "id": "sajdaMachineLearningDetection2006",
+  "abstract": "Machine learning offers a principled approach for developing sophisticated, automatic, and objective algorithms for analysis of high-dimensional and multimodal biomedical data. This review focuses on several advances in the state of the art that have shown promise in improving detection, diagnosis, and therapeutic monitoring of disease. Key in the advancement has been the development of a more in-depth understanding and theoretical analysis of critical issues related to algorithmic construction and learning theory. These include trade-offs for maximizing generalization performance, use of physically realistic constraints, and incorporation of prior knowledge and uncertainty. The review describes recent developments in machine learning, focusing on supervised and unsupervised linear methods and Bayesian inference, which have made significant impacts in the detection and diagnosis of disease in biomedicine. We describe the different methodologies and, for each, provide examples of their application to specific domains in biomedical diagnostics.",
+  "accessed": {
+    "date-parts": [
+      [2020, 10, 2]
+    ]
+  },
+  "author": [{
+    "family": "Sajda",
+    "given": "Paul"
+  }],
+  "container-title": "Annual Review of Biomedical Engineering",
+  "DOI": "10.1146/annurev.bioeng.8.061505.095802",
+  "issue": "1",
+  "issued": {
+    "date-parts": [
+      [2006]
+    ]
+  },
+  "page": "537-565",
+  "source": "Annual Reviews",
+  "title": "Machine Learning for Detection and Diagnosis of Disease",
+  "type": "article-journal",
+  "URL": "https://doi.org/10.1146/annurev.bioeng.8.061505.095802",
+  "volume": "8"
+}]

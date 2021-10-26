@@ -1,6 +1,7 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 const got = require('got');
+import { read } from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
 
@@ -12,6 +13,7 @@ type BibJson = { [key: string]: any };
 function getUriFromConfig(property: string, ...addendum: string[]): vscode.Uri | void {
 	const config = vscode.workspace.getConfiguration("zotenote");
 	const configVal: string = config[property];
+	if (!configVal) { return; }
 	if (path.isAbsolute(configVal)) {
 		return vscode.Uri.file(configVal);
 	} else {
@@ -45,23 +47,16 @@ async function connectToCayw(): Promise<[BibJson] | void> {
 /*
 * Read the template file, or fallback onto the default.
 */
-function readTemplate(): string | void {
-	const templateFile: string = vscode.workspace.getConfiguration("zotenote").templateFile;
-	if (!templateFile) { return fallbackTemplate; }
-	const templateUri = getUriFromConfig("templateFile");
-	if (!templateUri) {
-		reportError("Could not open template file.");
-		return;
-	}
-	let data: string | undefined = undefined;
-	vscode.workspace.fs.readFile(templateUri).then(
+export async function readTemplate(templateUri?: vscode.Uri): Promise<string> {
+	if (!templateUri) { return fallbackTemplate; }
+	let data: string | undefined;
+	return vscode.workspace.fs.readFile(templateUri).then(
 		buffer => {
 			data = buffer.toString();
 			return data;
 		},
 		reason => reportError(reason)
 	);
-	return data;
 }
 
 /*
@@ -74,35 +69,56 @@ function validateBibJson(bibJson: BibJson): void {
 }
 
 function formatDate(bibJson: BibJson): string {
-	const date: number[] = bibJson.issued["date-parts"][0];
-	return date.join("-");
+	const date: number[] = bibJson["issued"]["date-parts"][0];
+	let dateStrs: string[] = [];
+	date.forEach(datePart => {
+		const strPart = String(datePart);
+		if (strPart.length > 1) {
+			dateStrs.push(strPart);
+		} else {
+			dateStrs.push("0" + strPart);
+		}
+	});
+	return dateStrs.join("-");
 }
 
 function formatAuthors(bibJson: BibJson): string {
 	const authors: [{ family: string, given: string }] = bibJson.author;
-	const authorStrings = authors.map(names => `${names.family.replace(" ", "_")},${names.given.replace(" ", "_")}`);
+	const authorStrings = authors.map(names => `${names.family.replace(/\s/g, "_")},${names.given.replace(/\s/g, "_")}`);
 	return authorStrings.join(" ");
 }
 
 /*
 * Get the replacement string for an abbreviation
 */
-function getReplacementString(abbrev: string, bibJson: BibJson, preNewline?: boolean, postNewline?: boolean): string {
-	const numNewlines = (preNewline ? 1 : 0) + (postNewline ? 1 : 0);
-
-	let substitution = preNewline ? "\n" : "";
+function getReplacementString(abbrev: string, bibJson: BibJson, preWhiteSpace?: string, postWhiteSpace?: string): string {
+	// Determine what to start our substitution with
+	let substitution = preWhiteSpace ? preWhiteSpace : "";
 	if (abbrev.endsWith(":")) {
 		substitution += abbrev + " ";
 		abbrev = abbrev.slice(0, -1);
 	}
 
 	const bibField = bibJson[abbrev];
-	if (!bibField && abbrev !== "date") {
-		return numNewlines === 2 ? "\n" : "";
+	if (!bibField && !["date", "authors"].includes(abbrev)) {
+		/* No match:
+		* If wrapped by spaces, return one space.
+		* If wrapped by a space and a newline, return a newline.
+		* If wrapped by newlines, return one newline.
+		* If wrapped by just one of either space, return an empty string.
+		*/
+		if (preWhiteSpace && postWhiteSpace) {
+			if (preWhiteSpace === postWhiteSpace) {
+				return preWhiteSpace;
+			}
+			return "\n";
+		}
+		return "";
 	}
 
 	switch (abbrev) {
 		case "author":
+		case "authors":
 			substitution += formatAuthors(bibJson);
 			break;
 		case "date":
@@ -111,25 +127,26 @@ function getReplacementString(abbrev: string, bibJson: BibJson, preNewline?: boo
 		default:
 			substitution += bibField;
 	}
-	if (postNewline) {
-		substitution += "\n";
+	if (postWhiteSpace) {
+		substitution += postWhiteSpace;
 	}
 	return substitution;
 }
 
-function formatTemplate(template: string, bibJson: BibJson): string {
+export function formatTemplate(template: string, bibJson: BibJson): string {
 	// Format the desired template with bibliographic information
 	const templateLineRegex = /(\n?)^\$\{(.+)\}$(\n?)/gm;
-	const templateRegex = /\$\{(.+)\}/gm;
+	const templateRegex = /(\s?)\$\{(.+)\}(\s?)/gm;
 
-	template = template.replace(templateLineRegex, (_matchString, preNewline, abbrev, postNewline) => {
-		return getReplacementString(abbrev, bibJson, !!preNewline, !!postNewline);
+	[templateLineRegex, templateRegex].forEach(pattern => {
+		template = template.replace(pattern, (_matchString, preWhiteSpace, abbrev, postWhiteSpace) => {
+			return getReplacementString(abbrev, bibJson, preWhiteSpace, postWhiteSpace);
+		});
 	});
-	template = template.replace(templateRegex, (_matchString, abbrev) => getReplacementString(abbrev, bibJson));
 	return template;
 }
 
-async function writeNote(buffer: string, bibJson: BibJson) {
+export async function writeNote(buffer: string, bibJson: BibJson) {
 	const fname = bibJson.id + ".md";
 	const destUri = getUriFromConfig("destination", fname);
 	if (!destUri) { return; }
@@ -143,16 +160,23 @@ async function writeNote(buffer: string, bibJson: BibJson) {
 	}
 }
 
-function makeLiteratureNotes() {
+async function makeLiteratureNotes() {
 	// Load in the template
-	const template = readTemplate();
+	const templateUri = getUriFromConfig("templateFile");
+	let template: string;
+	if (!templateUri) {
+		template = await readTemplate();
+	}
+	else {
+		template = await readTemplate(templateUri);
+	}
 	if (!template) { return; }
 
 	// Show the Zotero citations picker
 	connectToCayw().then(
 		response => {
 			if (response) {
-				console.log(response);
+				// console.log(response);
 				// Parse CSL JSON
 				response.forEach(bibJson => {
 					try {
@@ -163,7 +187,7 @@ function makeLiteratureNotes() {
 					}
 					// Format template
 					let formattedTemplate = formatTemplate(template, bibJson);
-					console.log(formattedTemplate);
+					// console.log(formattedTemplate);
 					// Create new note
 					writeNote(formattedTemplate, bibJson);
 				});
