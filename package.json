@@ -59,7 +59,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
-    "got": "^11.8.2"
+    "got": "^11.8.5"
   },
   "publisher": "A-WS-M",
   "repository": "https://github.com/a-ws-m/zotenote"
